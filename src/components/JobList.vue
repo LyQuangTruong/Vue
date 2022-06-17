@@ -1,23 +1,32 @@
 <template>
 <div class="job-list">
-    <button>Order by title</button>
-    <button>Order by salary</button>
-    <button>Order by location</button>
+    <header>
+        <div class="order">
+            <button @click="handleClick('title')">Order by title</button>
+            <button @click="handleClick('salary')">Order by salary</button>
+            <button @click="handleClick('location')">Order by location</button>
+        </div>
+    </header>
+    
+    <!-- truyen item vao -->
+    <!-- <ul>
+        <JobDetail v-for="job in jobs" :key="job.id" :job="job"/>
+    </ul> -->
 
-    <ul>
-        <!-- <JobDetail v-for="job in jobs" :key="job.id" :job="job"/> -->
-        <JobDetail :jobs="jobs" />
-    </ul>
+    <JobDetail :jobs="jobs" :order="order" />
+
+
 </div>
 </template>
 <script lang="ts">
 import {defineComponent, ref} from 'vue'
 import JobDetail from './JobDetail.vue'
-
-import  {FlashDomain} from '@/types/Job'
+//import cach nay neu sai huong doi tuong
+// import  {FlashDomain} from '@/types/Job'
 
 // them 1 cách nếu không muốn new đối tượng mới thì sài import type
-// import type {FlashDomain, IJob} from '@/types/Job'
+import type {FlashDomain, IJob} from '@/types/Job'
+import type OrderItem from "@/types/OrderTerm";
 
 
 export default defineComponent({
@@ -43,47 +52,45 @@ export default defineComponent({
         // ])
         // Có thể rút gọn như cách bên dưới
         
-        const jobs = ref<Array<FlashDomain>>(array.map((item) => new FlashDomain(item)));
+        // const jobs = ref<Array<FlashDomain>>(array.map((item) => new FlashDomain(item)));
 
         // Sử dụng cách này khi thêm import type
-        // const jobs = ref<Array<IJob>>(array.map((item) => item));
+        const jobs = ref<Array<IJob>>(array.map((item) => item));
         console.log("job", jobs.value); //Proxy{}
-       
+
+
+
+        const order = ref<OrderItem>('title');
+        const handleClick = (tern: OrderItem) => {
+            order.value = tern
+        }
+
         return {
-            jobs,
+            jobs, handleClick, order
         };
     }
 })
 </script>
+
 
 <style scoped>
 .job-list{
     max-width: 960px;
     margin: 40px auto;
 }
-.job-list ul{
-    padding: 0;
+header{
+    margin: 0 auto;
+    max-width: 600px;
 }
-.job-list li {
-    list-style-type: none;
-    background:cadetblue;
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 4px;
+.order{
+    margin: 0 auto;
 }
-.job-list h2{
-    margin: 0 0 10px;
-    text-transform: capitalize;
+.order button{
+    background-color: aquamarine;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    color: darkcyan;
+    font-weight: 600;
 }
-.salary{
-    display: flex;
-}
-.salary img{
-    width: 30px;
-}
-.salary p {
-    color: #17bf66;
-    font-weight: bold;
-    margin: 10px 4px;
-}
+
 </style>

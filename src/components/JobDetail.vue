@@ -15,8 +15,10 @@
 
     <!-- cách truyền mảng vào -->
 
-    <ul>
-        <li v-for="job in jobs" :key="job.id">
+    <p>Ordered by {{order}}</p>
+    <transition-group name="list" tag="ul">
+    <!-- <ul> -->
+        <li v-for="job in orderedJobs" :key="job.id">
             <h2>{{ job.title}} in {{ job.location }}</h2>
             <div class="salary">
                 <p>{{ job.salary }} repuss</p>
@@ -27,7 +29,9 @@
 
             </div>
         </li>
-    </ul>
+    <!-- </ul> -->
+    </transition-group>
+  
    
 </template>
 <script lang="ts">
@@ -38,6 +42,8 @@ import { defineComponent, type PropType } from 'vue'
 
 // cách truyền mảng vào
 import type { FlashDomain, IJob} from '@/types/Job'
+import type OrderItem from '@/types/OrderTerm'
+import { computed } from '@vue/reactivity'
 
 
 
@@ -56,7 +62,51 @@ export default defineComponent({
             // type: Array<IJob>, // FlashDomain cung dc
             type: Array as PropType<IJob[]>, // cach tren cung dc
             required: true
+        },
+        order: {
+            type: String as PropType<OrderItem>,
+            required: true
         }
     },
+    setup(props){
+        const orderedJobs = computed(() => {
+            return [...props.jobs].sort((a: IJob, b: IJob) => {
+                console.log("a", a);
+                return a[props.order] > b[props.order] ? 1: -1
+            })
+            }
+        )
+        return {orderedJobs}
+    }
 })
 </script>
+<style scoped>
+.job-list ul{
+    padding: 0;
+}
+.job-list li {
+    list-style-type: none;
+    background:beige;
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 4px;
+}
+.job-list h2{
+    margin: 0 0 10px;
+    text-transform: capitalize;
+}
+.salary{
+    display: flex;
+}
+.salary img{
+    width: 30px;
+}
+.salary p {
+    color: #17bf66;
+    font-weight: bold;
+    margin: 10px 4px;
+}
+.list-move{
+    transition: all 1s;
+}
+</style>
