@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes: Array<any> = [
   {
-    path: '/jobs',
+    path: '/',
     name: 'jobs',
     component: () => import('@/components/JobList.vue'),
   }

@@ -4,7 +4,7 @@ export interface IJob {
     salary: string,
     id: string,
 }
-export class Flash implements IJob {
+export class FlashDomain implements IJob {
     title: string;
     location: string;
     salary: string;
