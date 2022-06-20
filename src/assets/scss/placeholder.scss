@@ -1,0 +1,22 @@
+::placeholder {
+    color: #bfbfbf !important;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #bfbfbf !important;
+}
+
+::-ms-input-placeholder {
+    color: #bfbfbf !important;
+}
+.placeholder {
+    color: #bfbfbf !important;
+}
+.editor-comment {
+    .editr--content {
+      &::before {
+        color: #bfbfbf !important;
+      }
+    }
+}
